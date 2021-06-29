@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:last_war/widgets/master/master_students_course_students_dialog.dart';
 
 class MasterStudentsCoursesItem extends StatelessWidget {
   final Map<String, dynamic> course;
@@ -22,13 +23,14 @@ class MasterStudentsCoursesItem extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            content: null,
+            content: MasterStudentsCourseStudentsDialog(course: course,),
           ),
         );
       },
       child: FittedBox(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //mainAxisSize: MainAxisSize.min,
           children: [
             FittedBox(
               child: Text('${course['name']}'),
