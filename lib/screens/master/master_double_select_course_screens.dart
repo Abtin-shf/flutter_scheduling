@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:last_war/providers/admin/courses_provider.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
+import 'package:last_war/widgets/master/master_select_courses_courses_item.dart';
 import 'package:last_war/widgets/master/master_select_courses_dateandtime_item.dart';
 import 'package:provider/provider.dart';
 
@@ -7,9 +9,7 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final extractedTimeTableData =
-        Provider
-            .of<MasterTimeTableProvider>(context)
-            .getMasterTimeTableData;
+        Provider.of<MasterTimeTableProvider>(context).getMasterTimeTableData;
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 5),
       child: Column(
@@ -35,18 +35,14 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme
-                            .of(context)
-                            .accentColor)),
+                        Theme.of(context).accentColor)),
                 onPressed: () {},
                 child: Text('Edit'),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme
-                            .of(context)
-                            .accentColor)),
+                        Theme.of(context).accentColor)),
                 onPressed: () {},
                 child: Text('Done'),
               )
@@ -61,28 +57,36 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
 class MasterSelectCourseCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final extractedCourses = Provider.of<CoursesProvider>(context).getCourses;
     return Container(
       child: Column(
         children: [
-          Expanded(child: ListView.builder(itemBuilder:, itemCount:,)),
+          Expanded(
+              child: ListView.builder(
+            itemBuilder: (context, index) {
+              return MasterSelectCoursesCoursesItem(
+                classNumber:extractedCourses[index]['classNumber'] as String,
+                name: extractedCourses[index]['name'] as String,
+                examDate:extractedCourses[index]['examDate'] as String,
+                capacity:extractedCourses[index]['capacity'] as String,
+              );
+            },
+            itemCount: extractedCourses.length,
+          )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme
-                            .of(context)
-                            .accentColor)),
+                        Theme.of(context).accentColor)),
                 onPressed: () {},
                 child: Text('Edit'),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme
-                            .of(context)
-                            .accentColor)),
+                        Theme.of(context).accentColor)),
                 onPressed: () {},
                 child: Text('Done'),
               )
