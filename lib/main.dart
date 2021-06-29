@@ -3,8 +3,9 @@ import 'package:last_war/providers/admin/admin_annoucement_provider.dart';
 import 'package:last_war/providers/admin/admin_data_provider.dart';
 import 'package:last_war/providers/admin/admin_students_provider.dart';
 import 'package:last_war/providers/admin/admin_timetable_provider.dart';
-import 'package:last_war/providers/admin/courses_provider.dart';
+import 'package:last_war/providers/admin/all_courses_provider.dart';
 import 'package:last_war/providers/master/master_announcement_provider.dart';
+import 'package:last_war/providers/master/master_courses_provider.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
 import 'package:last_war/screens/admin/admin_tabs_screen.dart';
 import 'package:last_war/screens/auth_screen.dart';
@@ -40,8 +41,13 @@ class MyApp extends StatelessWidget {
           create: (ctx) => MasterTimeTableProvider(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => CoursesProvider(),
+          create: (ctx) => AllCoursesProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => MasterCoursesProvider(),
+        ),
+
+
       ],
       child: MaterialApp(
         title: 'Last War',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:last_war/providers/admin/courses_provider.dart';
+import 'package:last_war/providers/admin/all_courses_provider.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
 import 'package:last_war/widgets/master/master_select_courses_courses_item.dart';
 import 'package:last_war/widgets/master/master_select_courses_dateandtime_item.dart';
@@ -57,7 +57,7 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
 class MasterSelectCourseCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final extractedCourses = Provider.of<CoursesProvider>(context).getCourses;
+    final extractedCourses = Provider.of<AllCoursesProvider>(context).getCourses;
     return Container(
       child: Column(
         children: [
