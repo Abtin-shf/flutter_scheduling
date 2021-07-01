@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:last_war/screens/admin/admin_tabs_screen.dart';
+import 'package:last_war/screens/student/student_tabs_screen.dart';
 
 import 'master/master_tabs_screen.dart';
 
@@ -86,6 +87,9 @@ class _AuthCardState extends State<AuthCard> {
     }
     if (_authData['id'] == '222222222') {
       Navigator.of(context).pushReplacementNamed(MasterTabsScreen.routName);
+    }
+    if (_authData['id'] == '333333333') {
+      Navigator.of(context).pushReplacementNamed(StudentTabsScreen.routName);
     }
   }
 

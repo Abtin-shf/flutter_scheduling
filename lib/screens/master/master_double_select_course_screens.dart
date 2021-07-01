@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:last_war/providers/admin/all_courses_provider.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
-import 'package:last_war/widgets/master/master_select_courses_courses_item.dart';
-import 'package:last_war/widgets/master/master_select_courses_dateandtime_item.dart';
+import 'package:last_war/widgets/master/items/master_select_courses_courses_item.dart';
+import 'package:last_war/widgets/master/items/master_select_courses_dateandtime_item.dart';
 import 'package:provider/provider.dart';
 
 class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
               crossAxisCount: 4,
               childAspectRatio: 6 / 7,
               children: extractedTimeTableData.map((tableData) {
-                print(tableData);
+                //print(tableData);
                 return MasterSelectCoursesDateAndTimeItem(
                   classNumber: tableData['classNumber'] as String,
                   course: tableData['course'] as String,
@@ -36,6 +36,7 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).accentColor)),
+                //TODO EDIT?
                 onPressed: () {},
                 child: Text('Edit'),
               ),
@@ -43,6 +44,7 @@ class MasterSelectCourseDateAndTimeScreen extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).accentColor)),
+                //TODO Done?
                 onPressed: () {},
                 child: Text('Done'),
               )
@@ -80,14 +82,18 @@ class MasterSelectCourseCoursesScreen extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).accentColor)),
-                onPressed: () {},
+                onPressed: () {
+                  //TODO Edit
+                },
                 child: Text('Edit'),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).accentColor)),
-                onPressed: () {},
+                onPressed: () {
+                  //TODO Done
+                },
                 child: Text('Done'),
               )
             ],

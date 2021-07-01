@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
-import 'package:last_war/widgets/master/master_timetable_item.dart';
+import 'package:last_war/widgets/master/items/master_timetable_item.dart';
 import 'package:provider/provider.dart';
 
 class MasterTimeTableScreen extends StatelessWidget {

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:last_war/screens/master/master_announcement_screen.dart';
-import 'package:last_war/screens/master/master_select_courses_screen.dart';
-import 'package:last_war/screens/master/master_students_screen.dart';
-import 'package:last_war/screens/master/master_timetable_screen.dart';
+import 'package:last_war/screens/student/student_announcement_screen.dart';
+import 'package:last_war/screens/student/student_courses_screen.dart';
+import 'package:last_war/screens/student/student_timetable_screen.dart';
+import 'package:last_war/screens/student/student_unitselection_screen.dart';
 
-class MasterTabsScreen extends StatefulWidget {
-  static const routName = '/master-tabs';
+
+class StudentTabsScreen extends StatefulWidget {
+  static const routName = '/student-tabs';
 
   @override
-  _MasterTabsScreenState createState() => _MasterTabsScreenState();
+  _StudentTabsScreenState createState() => _StudentTabsScreenState();
 }
 
-class _MasterTabsScreenState extends State<MasterTabsScreen> {
+class _StudentTabsScreenState extends State<StudentTabsScreen> {
   List<Widget> _pages = [];
   int _selectedPageIndex = 0;
 
@@ -29,10 +30,10 @@ class _MasterTabsScreenState extends State<MasterTabsScreen> {
       return 'Time Table';
     }
     if (_selectedPageIndex == 2) {
-      return 'Select Courses';
+      return 'Courses';
     }
     if (_selectedPageIndex == 3) {
-      return 'Students';
+      return 'Unit Selection';
     }
     return 'UnKnown';
   }
@@ -40,10 +41,10 @@ class _MasterTabsScreenState extends State<MasterTabsScreen> {
   @override
   void initState() {
     _pages = [
-      MasterAnnouncementScreen(),
-      MasterTimeTableScreen(),
-      MasterSelectCoursesScreen(),
-      MasterStudentScreen(),
+      StudentAnnouncementScreen(),
+      StudentTimeTableScreen(),
+      StudentCoursesScreen(),
+      StudentUnitSelectionScreen()
     ];
     super.initState();
   }
@@ -58,7 +59,7 @@ class _MasterTabsScreenState extends State<MasterTabsScreen> {
           child: CircleAvatar(
             backgroundImage: NetworkImage(
               //TODO image
-              'https://i.ibb.co/CP3ZSVp/f5243de6d4855da804f7d83d1770858b.jpg',
+              'https://i.ibb.co/QbzKX4v/Wings-Of-Freedom.jpg',
             ),
           ),
         ),
@@ -99,7 +100,7 @@ class _MasterTabsScreenState extends State<MasterTabsScreen> {
         type: BottomNavigationBarType.shifting,
         items: [
           BottomNavigationBarItem(
-              //     backgroundColor: color,
+            //     backgroundColor: color,
               backgroundColor: color,
               icon: Icon(
                 Icons.notifications_none_rounded,
@@ -115,21 +116,21 @@ class _MasterTabsScreenState extends State<MasterTabsScreen> {
               ),
               label: 'Time Table'),
           BottomNavigationBarItem(
-              //    backgroundColor: color,
-              backgroundColor: color,
-              icon: Icon(
-                Icons.check_circle_outline_rounded,
-                size: 30,
-              ),
-              label: 'Select Courses'),
-          BottomNavigationBarItem(
-              //    backgroundColor: color,
+            //    backgroundColor: color,
               backgroundColor: color,
               icon: Icon(
                 Icons.format_list_bulleted_rounded,
                 size: 30,
               ),
-              label: 'Students'),
+              label: 'Courses'),
+          BottomNavigationBarItem(
+            //    backgroundColor: color,
+              backgroundColor: color,
+              icon: Icon(
+                Icons.checklist_rounded,
+                size: 30,
+              ),
+              label: 'Unit Selection'),
         ],
       ),
     );

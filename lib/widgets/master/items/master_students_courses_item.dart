@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:last_war/widgets/master/master_students_course_students_dialog.dart';
+import 'package:last_war/widgets/master/dialogs/master_students_course_students_dialog.dart';
 
 class MasterStudentsCoursesItem extends StatelessWidget {
   final Map<String, dynamic> course;

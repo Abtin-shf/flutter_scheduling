@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:last_war/providers/master/master_courses_provider.dart';
-import 'package:last_war/widgets/master/master_students_courses_item.dart';
+import 'package:last_war/widgets/master/items/master_students_courses_item.dart';
 import 'package:provider/provider.dart';
 
 class MasterStudentScreen extends StatelessWidget {

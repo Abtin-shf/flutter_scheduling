@@ -31,7 +31,9 @@ class MasterSelectCoursesCoursesItem extends StatelessWidget {
           ],
         ),
         trailing: IconButton(
-          onPressed: (){},
+          onPressed: (){
+            //TODO
+          },
           icon:Icon(Icons.check_box_outlined),
         ),
       ),
