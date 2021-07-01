@@ -29,24 +29,22 @@ class StudentTimeTableItem extends StatelessWidget {
             classNumber,
             style: TextStyle(
                 color: Theme.of(context).accentColor,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold),
           ),
           Text(
             master,
             style: TextStyle(
                 color: Theme.of(context).accentColor,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold),
           ),
-          FittedBox(
-            child: Text(
-              course,
-              style: TextStyle(
-                  color: Theme.of(context).accentColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
+          Text(
+            course,
+            style: TextStyle(
+                color: Theme.of(context).accentColor,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
           ),
           Text(day),
         ],
