@@ -209,8 +209,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                           title: Text(announcementData.getAnnouncements[index]
                               ['title'] as String),
                           subtitle: Text(_extractPreview(
-                              announcementData.getAnnouncements[index]
-                                  ['description'] as String)),
+                              announcementData.getAnnouncements[index]['description'] as String)),
                           trailing: IconButton(
                             onPressed: () {
                               _changeIconColor(index);

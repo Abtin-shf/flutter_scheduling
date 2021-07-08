@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:last_war/providers/admin/admin_annoucement_provider.dart';
 import 'package:last_war/providers/admin/admin_data_provider.dart';
@@ -14,19 +16,24 @@ import 'package:last_war/screens/auth_screen.dart';
 import 'package:last_war/screens/master/master_tabs_screen.dart';
 import 'package:last_war/screens/student/student_tabs_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart' as pathProvider;
+import 'package:hive/hive.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  Directory directory = await pathProvider.getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  runApp(LastWar());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class LastWar extends StatelessWidget {
+  static const String dns = 'http://localhost:8080/api/';
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (ctx) => AdminAnnouncementProvider(),
+          create: (ctx) => AdminAnnouncementProvider(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => AdminTimeTableProvider(),
@@ -69,13 +76,15 @@ class MyApp extends StatelessWidget {
 
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
-            style:ElevatedButton.styleFrom(
+            style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
               padding:
               EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-              primary: Theme.of(context).primaryColor,
+              primary: Theme
+                  .of(context)
+                  .primaryColor,
 
             ),
 
@@ -84,9 +93,9 @@ class MyApp extends StatelessWidget {
         ),
         home: AuthScreen(),
         routes: {
-          AdminTabsScreen.routName : (ctx) => AdminTabsScreen(),
-          MasterTabsScreen.routName : (ctx) => MasterTabsScreen(),
-          StudentTabsScreen.routName : (ctx) => StudentTabsScreen(),
+          AdminTabsScreen.routName: (ctx) => AdminTabsScreen(),
+          MasterTabsScreen.routName: (ctx) => MasterTabsScreen(),
+          StudentTabsScreen.routName: (ctx) => StudentTabsScreen(),
         },
       ),
     );

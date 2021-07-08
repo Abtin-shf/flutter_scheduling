@@ -13,6 +13,10 @@ class StudentAnnouncementScreen extends StatefulWidget {
 }
 
 class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
+  //TODO OOO
+  final timetableIds=[];
+
+
   String _extractPreview(String sentence) {
     return '${sentence.substring(0, 35)}...';
   }
@@ -144,12 +148,12 @@ class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
                               borderRadius: BorderRadius.circular(25),
                             ),
                             content: StudentAnnouncementDialog(
-                              title: announcementData.getAnnouncements[index]
+                              title: announcementData.getAnnouncements(timetableIds)[index]
                                   ['title'] as String,
-                              dateTime: announcementData.getAnnouncements[index]
+                              dateTime: announcementData.getAnnouncements(timetableIds)[index]
                                   ['dateTime'] as String,
                               description:
-                                  announcementData.getAnnouncements[index]
+                                  announcementData.getAnnouncements(timetableIds)[index]
                                       ['description'] as String,
                             ),
                           ),
@@ -161,16 +165,16 @@ class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
                           border: Border.all(width: 1, color: Colors.black),
                         ),
                         child: ListTile(
-                          title: Text(announcementData.getAnnouncements[index]
+                          title: Text(announcementData.getAnnouncements(timetableIds)[index]
                               ['title'] as String),
                           subtitle: Text(_extractPreview(
-                              announcementData.getAnnouncements[index]
+                              announcementData.getAnnouncements(timetableIds)[index]
                                   ['description'] as String)),
                         ),
                       ),
                     );
                   },
-                  itemCount: announcementData.getAnnouncements.length,
+                  itemCount: announcementData.getAnnouncements(timetableIds).length,
                 ),
               ),
             ),
