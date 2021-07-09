@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../main.dart';
+
 class AdminDataProvider with ChangeNotifier {
-  final token = '';
-  final globalEndPoint = 'http://bosh:8080/api';
+  final token = LastWar.token;
+  final endPoint = LastWar.dns;
 
   List<String> _dayItems = [
     'Saturday',
@@ -23,7 +25,6 @@ class AdminDataProvider with ChangeNotifier {
     '16 - 18',
   ];
 
-  //should they be unique??
   List<String> _coursesItems = [
     'Algorithm',
     'CPU',
@@ -31,71 +32,234 @@ class AdminDataProvider with ChangeNotifier {
     'AI',
   ];
 
-  void addDay(String label, String dayOfWeek) {
-    http
-        .post(
-      Uri.parse('$globalEndPoint/Days'),
+//=============================Days======================================
+  Future<void> addDay(String label, String dayOfWeek) async {
+    final response = await http.post(
+      Uri.parse('$endPoint/Days'),
       body: json.encode({
         'label': label,
         'dayOfWeek': dayOfWeek,
       }),
-    )
-        .then((response) {
-      //200 and non zero id is done or ok
-      if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
-        //TODO Done Snackbar and stuff
-      } else {
-        //Not Done!
-      }
-    });
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+    //200 and non zero id is done or ok
+    if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
+      //TODO Done Snackbar and stuff
+    } else {
+      //Not Done!
+    }
   }
 
-  void addBell(String label, String bellOfDay) {
-    http
-        .post(
-      Uri.parse('$globalEndPoint/Bells'),
+  Future<void> editDay(String id, String label, String dayOfWeek) async {
+    final response = await http.put(
+      Uri.parse('$endPoint/Days/$id'),
+      body: json.encode({
+        'label': label,
+        'dayOfWeek': dayOfWeek,
+      }),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+    if (response.statusCode == 200) {
+      //TODO Snack Bar done!
+    } else {
+      //TODO Not Done!
+    }
+  }
+
+  void deleteDay(String id) {
+    http.delete(
+      Uri.parse('$endPoint/Days/$id'),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+  }
+
+  List<dynamic> get getDays {
+    final days = [];
+    http.get(
+      Uri.parse('$endPoint/Days?Page=1&PageSize=2147483647'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      days.addAll(json.decode(response.body).list);
+    });
+    return days;
+  }
+
+  Map<String, String> getSingleDay(String id) {
+    Map<String, String> day = {};
+    http.get(
+      Uri.parse('$endPoint/Days/$id'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      day.addAll(json.decode(response.body));
+    });
+    return day;
+  }
+
+//=============================Days======================================
+//=============================Bells======================================
+  Future<void> addBell(String label, String bellOfDay) async {
+    final response = await http.post(
+      Uri.parse('$endPoint/Bells'),
       body: json.encode({
         'label': label,
         'dayOfWeek': bellOfDay,
       }),
-    )
-        .then((response) {
-      //200 and non zero id is done or ok
-      if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
-        //TODO Done Snackbar and stuff
-      } else {
-        //Not Done!
-      }
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+
+    //200 and non zero id is done or ok
+    if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
+      //TODO Done Snackbar and stuff
+    } else {
+      //Not Done!
+    }
+  }
+
+  Future<void> editBell(String id, String label, String bellOfDay) async {
+    final response = await http.put(
+      Uri.parse('$endPoint/Bells/$id'),
+      body: json.encode({
+        'label': label,
+        'bellOfDay': bellOfDay,
+      }),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+    if (response.statusCode == 200) {
+      //TODO Snack Bar done!
+    } else {
+      //TODO Not Done!
+    }
+  }
+
+  void deleteBell(String id) {
+    http.delete(
+      Uri.parse('$endPoint/Bells/$id'),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+  }
+
+  List<dynamic> get getBells {
+    final bells = [];
+    http.get(
+      Uri.parse('$endPoint/Bells?Page=1&PageSize=2147483647'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      bells.addAll(json.decode(response.body).list);
     });
+    return bells;
   }
 
-  void addCourse() {
-    //TODO Add Course
+  Map<String, String> getSingleBell(String id) {
+    Map<String, String> bell = {};
+    http.get(
+      Uri.parse('$endPoint/Bells/$id'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      bell.addAll(json.decode(response.body));
+    });
+    return bell;
   }
 
-  void editDay() {
-    //TODO edit Day
+//=============================Bells======================================
+//=============================Courses======================================
+  Future<void> addCourse(String title, String unitsCount) async {
+    final response = await http.post(
+      Uri.parse('$endPoint/Courses'),
+      body: json.encode({
+        'title': title,
+        'unitsCount': unitsCount,
+      }),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+
+    //200 and non zero id is done or ok
+    if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
+      //TODO Done Snackbar and stuff
+    } else {
+      //Not Done!
+    }
   }
 
-  void editBell() {
-    //TODO edit bell
+  Future<void> editCourse(String id, String title, String unitsCount) async {
+    final response = await http.put(
+      Uri.parse('$endPoint/Courses/$id'),
+      body: json.encode({
+        'title': title,
+        'unitsCount': unitsCount,
+      }),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+    if (response.statusCode == 200) {
+      //TODO Snack Bar done!
+    } else {
+      //TODO Not Done!
+    }
   }
 
-  void editCourse() {
-    //TODO edit course
+  void deleteCourse(String id) {
+    http.delete(
+      Uri.parse('$endPoint/Courses/$id'),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
   }
 
-  void deleteDay() {
-    //TODO delete day
+  List<dynamic>  getCourses(String search,String unitCount) {
+    final courses = [];
+    http.get(
+      Uri.parse('$endPoint/Courses?search=$search&unitCount=$unitCount&Page=1&PageSize=2147483647'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      courses.addAll(json.decode(response.body).list);
+    });
+    return courses;
   }
 
-  void deleteBell() {
-    //TODO delete bell
+  List<dynamic> getSingleCourse(String id) {
+    final course = [];
+    http.get(
+      Uri.parse('$endPoint/Courses/$id?Page=1&PageSize=2147483647'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      course.addAll(json.decode(response.body).list);
+    });
+    return course;
   }
 
-  void deleteCourse() {
-    //TODO delete course
+  List<dynamic> getSingleCourseTimeTable(String id) {
+    final courseTimeTable = [];
+    http.get(
+      Uri.parse('$endPoint/Courses/$id/TimeTables?Page=1&PageSize=2147483647'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      courseTimeTable.addAll(json.decode(response.body).list);
+    });
+    return courseTimeTable;
   }
+
+  List<dynamic> getSingleCourseMasters(String id) {
+    final courseMasters = [];
+    http.get(
+      Uri.parse('$endPoint/Courses/$id/Masters?Page=1&PageSize=2147483647'),
+      headers: {'Authorization': 'Mazalax $token'},
+    ).then((response) {
+      courseMasters.addAll(json.decode(response.body).list);
+    });
+    return courseMasters;
+  }
+
+  Future<void> chooseCourse(String id) async {
+    final response = await http.post(
+      Uri.parse('$endPoint/Courses/$id/Choose'),
+      headers: {'Authorization': 'Mazalax $token'},
+    );
+    if (response.statusCode == 200) {
+      //TODO Done Snackbar and stuff
+    } else {
+      //Not Done!
+    }
+  }
+
+//=============================Courses======================================
 
   List<String> get getDayItems {
     return [..._dayItems];

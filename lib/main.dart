@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:last_war/providers/admin/admin_annoucement_provider.dart';
@@ -11,27 +10,30 @@ import 'package:last_war/providers/master/master_courses_provider.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
 import 'package:last_war/providers/student/student_courses_provider.dart';
 import 'package:last_war/providers/student/student_timetable_provider.dart';
+import 'package:last_war/providers/users_provider.dart';
 import 'package:last_war/screens/admin/admin_tabs_screen.dart';
 import 'package:last_war/screens/auth_screen.dart';
 import 'package:last_war/screens/master/master_tabs_screen.dart';
 import 'package:last_war/screens/student/student_tabs_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:path_provider/path_provider.dart' as pathProvider;
-import 'package:hive/hive.dart';
 
-Future<void> main() async {
-  Directory directory = await pathProvider.getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+
+void main()  {
   runApp(LastWar());
 }
 
 class LastWar extends StatelessWidget {
-  static const String dns = 'http://localhost:8080/api/';
+  static const String dns = 'http://localhost:8080/api';
+  static String? token;
+  static Map<String,String>? user;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => UsersProvider(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => AdminAnnouncementProvider(),
         ),
