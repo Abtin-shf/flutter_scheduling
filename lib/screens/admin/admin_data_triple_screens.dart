@@ -11,10 +11,12 @@ class _DataItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery= MediaQuery.of(context);
     return SingleChildScrollView(
       child: Column(children: [
         Container(
-          height: 448,
+          //height: 448,
+          height: mediaQuery.size.height * 0.55,
           width: double.infinity,
           child: ListView.builder(
             itemBuilder: (ctx, index) => AdminDataItem(item: items[index]),
@@ -22,7 +24,7 @@ class _DataItem extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 40,
+          height: mediaQuery.size.height * 0.05,
         ),
         ElevatedButton(
           onPressed: () {
@@ -40,10 +42,10 @@ class _DataItem extends StatelessWidget {
           },
           style: ButtonStyle(
             fixedSize: MaterialStateProperty.all<Size>(
-              Size.fromWidth(200),
+              Size.fromWidth(150),
             ),
             backgroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+            MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
           ),
           child: Text(
             'Add',
@@ -53,7 +55,7 @@ class _DataItem extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 20,
+          height:  mediaQuery.size.height * 0.015,
         ),
         ElevatedButton(
           onPressed: () {
@@ -61,10 +63,10 @@ class _DataItem extends StatelessWidget {
           },
           style: ButtonStyle(
             fixedSize: MaterialStateProperty.all<Size>(
-              Size.fromWidth(250),
+              Size.fromWidth(200),
             ),
             backgroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+            MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
           ),
           child: Text(
             'Generate',

@@ -91,7 +91,7 @@ class AdminStudentsScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  content: AdminStudentsDialog('BioMedicsl Engineering'),
+                  content: AdminStudentsDialog('BioMedical Engineering'),
                 ),
               );
             },
@@ -100,7 +100,7 @@ class AdminStudentsScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   FittedBox(
-                    child: Text('BioMedicsl Engineering'),
+                    child: Text('BioMedical Engineering'),
                   ),
                   Icon(
                     Icons.keyboard_arrow_down_rounded,

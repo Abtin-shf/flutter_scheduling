@@ -32,15 +32,16 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
   @override
   void didChangeDependencies() {
     final announcementData =
-        Provider.of<AdminAnnouncementProvider>(context, listen: false);
+    Provider.of<AdminAnnouncementProvider>(context, listen: false);
     _initializeColors(announcementData.getAnnouncements.length);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final announcementData =
-        Provider.of<AdminAnnouncementProvider>(context, listen: false);
+    Provider.of<AdminAnnouncementProvider>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(top: 25),
       height: double.infinity,
@@ -48,61 +49,67 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(4),
-                      height: 150,
-                      width: 150,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            //TODO image
-                            'https://i.ibb.co/ftmK4D5/cfae1f642850da600d18a38b55013a18.jpg'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //TODO major
-                          Text('Major'),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          //TODO number
-                          Text('Admin Number'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 60,
-                    bottom: 70,
-                  ),
-                  child: Column(
+            Container(
+              height: mediaQuery.size.height * 0.3,
+              child: Row(
+                children: <Widget>[
+                  Column(
                     children: <Widget>[
-                      //TODO name
-                      Text('FullName'),
-                      SizedBox(
-                        height: 20,
+                      Container(
+                        margin: EdgeInsets.all(4),
+                        height: mediaQuery.size.height * 0.2,
+                        width: 150,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            //TODO image
+                              'https://i.ibb.co/ftmK4D5/cfae1f642850da600d18a38b55013a18.jpg'),
+                        ),
                       ),
-                      //TODO ID
-                      Text('ID')
+                      SizedBox(
+                        height: mediaQuery.size.height * 0.015,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //TODO major
+                            Text('Major'),
+                            SizedBox(
+                              height: mediaQuery.size.height * 0.02,
+                            ),
+                            //TODO number
+                            Text('Admin Number'),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: 60,
+                      bottom: 70,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.065,
+                        ),
+                        //TODO name
+                        Text('FullName'),
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.02,
+                        ),
+                        //TODO ID
+                        Text('ID')
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 30,
+            SizedBox( //
+              height: mediaQuery.size.height * 0.015,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -130,7 +137,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                                 TextButton(
                                     onPressed: () {
                                       Navigator.of(ctx).pop();
-                                    // TODO DELETE
+                                      // TODO DELETE
                                     },
                                     child: Text('Yes')),
                                 TextButton(
@@ -168,7 +175,8 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
               ),
             ),
             SizedBox(
-              height: 20,
+              //height: 20,
+              height: mediaQuery.size.height*0.02,
             ),
             Card(
               elevation: 6,
@@ -176,7 +184,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
               //   borderRadius: BorderRadius.circular(25),
               // ),
               child: Container(
-                height: 340,
+                height: mediaQuery.size.height*0.365,
                 width: double.infinity,
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {
@@ -190,12 +198,12 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                             ),
                             content: AnnouncementDialog(
                               title: announcementData.getAnnouncements[index]
-                                  ['title'] as String,
+                              ['title'] as String,
                               dateTime: announcementData.getAnnouncements[index]
-                                  ['dateTime'] as String,
+                              ['dateTime'] as String,
                               description:
-                                  announcementData.getAnnouncements[index]
-                                      ['description'] as String,
+                              announcementData.getAnnouncements[index]
+                              ['description'] as String,
                             ),
                           ),
                         );
@@ -207,10 +215,10 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                         ),
                         child: ListTile(
                           title: Text(announcementData.getAnnouncements[index]
-                              ['title'] as String),
+                          ['title'] as String),
                           subtitle: Text(_extractPreview(
                               announcementData.getAnnouncements[index]
-                                  ['description'] as String)),
+                              ['description'] as String)),
                           trailing: IconButton(
                             onPressed: () {
                               _changeIconColor(index);
