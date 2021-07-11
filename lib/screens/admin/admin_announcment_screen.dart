@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:last_war/main.dart';
+import 'package:last_war/models/enums.dart';
 import 'package:last_war/providers/admin/admin_annoucement_provider.dart';
 import 'package:last_war/widgets/shared/announcement_dialog.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +17,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
     return '${sentence.substring(0, 35)}...';
   }
 
+  List<String> _deletingAnnouncementIds = [];
   Map<int, Color> _colors = {};
 
   void _initializeColors(int len) {
@@ -23,9 +26,15 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
     }
   }
 
-  void _changeIconColor(int index) {
+  void _changeIconColor(int index, announcementId) {
+    if (_deletingAnnouncementIds.contains(announcementId)) {
+      _deletingAnnouncementIds.remove(announcementId);
+    } else {
+      _deletingAnnouncementIds.add(announcementId);
+    }
     setState(() {
-      _colors[index] = _colors[index] == Colors.green ? Colors.red : Colors.green;
+      _colors[index] =
+          _colors[index] == Colors.green ? Colors.red : Colors.green;
     });
   }
 
@@ -33,7 +42,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
   void didChangeDependencies() {
     final announcementData =
         Provider.of<AdminAnnouncementProvider>(context, listen: false);
-    _initializeColors(announcementData.getAnnouncements.length);
+    _initializeColors(announcementData.getAnnouncements(null, null).length);
     super.didChangeDependencies();
   }
 
@@ -41,6 +50,9 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
   Widget build(BuildContext context) {
     final announcementData =
         Provider.of<AdminAnnouncementProvider>(context, listen: false);
+    final announcements =
+        Provider.of<AdminAnnouncementProvider>(context, listen: false)
+            .getAnnouncements(null, null);
     return Container(
       margin: EdgeInsets.only(top: 25),
       height: double.infinity,
@@ -75,8 +87,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                           SizedBox(
                             height: 20,
                           ),
-                          //TODO number
-                          Text('Admin Number'),
+                          Text('${LastWar.user['code']}'),
                         ],
                       ),
                     ),
@@ -89,13 +100,12 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      //TODO name
-                      Text('FullName'),
+                      Text(
+                          '${LastWar.user['firstName']} ${LastWar.user['lastName']}'),
                       SizedBox(
                         height: 20,
                       ),
-                      //TODO ID
-                      Text('ID')
+                      Text('${LastWar.user['id']}')
                     ],
                   ),
                 ),
@@ -124,13 +134,15 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                             context: context,
                             builder: (ctx) => CupertinoAlertDialog(
                               title: Text('Deleting...'),
-                              content:
-                              Text('Are You Sure You Want to Delete Selected Announcements?'),
+                              content: Text(
+                                  'Are You Sure You Want to Delete Selected Announcements?'),
                               actions: [
                                 TextButton(
                                     onPressed: () {
+                                      announcementData
+                                          .deleteListOfAnnouncements(
+                                              _deletingAnnouncementIds);
                                       Navigator.of(ctx).pop();
-                                    // TODO DELETE
                                     },
                                     child: Text('Yes')),
                                 TextButton(
@@ -156,6 +168,8 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                                 dateTime: '',
                                 title: '',
                                 description: '',
+                                editOrAdd: EditOrAdd.Add,
+                                timeTableId: '',
                               ),
                             ),
                           );
@@ -172,9 +186,6 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
             ),
             Card(
               elevation: 6,
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(25),
-              // ),
               child: Container(
                 height: 340,
                 width: double.infinity,
@@ -189,13 +200,13 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                               borderRadius: BorderRadius.circular(25),
                             ),
                             content: AnnouncementDialog(
-                              title: announcementData.getAnnouncements[index]
-                                  ['title'] as String,
-                              dateTime: announcementData.getAnnouncements[index]
-                                  ['dateTime'] as String,
+                              title: announcements[index]['title'] as String,
+                              dateTime:
+                                  announcements[index]['dateTime'] as String,
                               description:
-                                  announcementData.getAnnouncements[index]
-                                      ['description'] as String,
+                                  announcements[index]['description'] as String,
+                              editOrAdd: EditOrAdd.Edit,
+                              timeTableId: announcements[index]['timeTableId'],
                             ),
                           ),
                         );
@@ -206,13 +217,13 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                           border: Border.all(width: 1, color: Colors.black),
                         ),
                         child: ListTile(
-                          title: Text(announcementData.getAnnouncements[index]
-                              ['title'] as String),
+                          title: Text(announcements[index]['title'] as String),
                           subtitle: Text(_extractPreview(
-                              announcementData.getAnnouncements[index]['description'] as String)),
+                              announcements[index]['description'] as String)),
                           trailing: IconButton(
                             onPressed: () {
-                              _changeIconColor(index);
+                              _changeIconColor(
+                                  index, announcements[index]['id']);
                             },
                             icon: Icon(
                               Icons.check_box_outlined,
@@ -223,7 +234,8 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                       ),
                     );
                   },
-                  itemCount: announcementData.getAnnouncements.length,
+                  itemCount:
+                      announcementData.getAnnouncements(null, null).length,
                 ),
               ),
             ),

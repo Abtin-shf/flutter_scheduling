@@ -69,16 +69,18 @@ class AdminAnnouncementProvider with ChangeNotifier {
   //   },
   // ];
 
-  List<Map<String, dynamic>> get getAnnouncements {
-    var announcements;
-    http.get(Uri.parse('$endpoint?Page=1&PageSize=2147483647'),
+  List<Map<String, dynamic>> getAnnouncements(
+      String? masterId, String? timeTableId) {
+    List<Map<String, dynamic>> announcements = [];
+    String query =
+        '${masterId == null ? '' : 'MasterId=$masterId&'}${timeTableId == null ? '' : 'TimeTableId=$timeTableId&'}';
+    http.get(Uri.parse('$endpoint?$query' 'Page=1&PageSize=2147483647'),
         headers: {'Authorization': 'Mazalax $token'}).then((response) {
       announcements = json.decode(response.body).list;
     });
     return announcements;
   }
 
-//TODO token DB
   Future<void> addAnnouncement(String title, String description,
       String dateTime, String timeTableId) async {
     final response = await http.post(Uri.parse(endpoint),
@@ -102,8 +104,7 @@ class AdminAnnouncementProvider with ChangeNotifier {
     );
   }
 
-  void deleteListOfAnnouncements(
-      List<String> deletingAnnouncementsIds, String token) {
+  void deleteListOfAnnouncements(List<String> deletingAnnouncementsIds) {
     deletingAnnouncementsIds.forEach((id) {
       deleteSingleAnnouncement(id);
     });

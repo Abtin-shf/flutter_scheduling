@@ -90,7 +90,7 @@ class AdminDataProvider with ChangeNotifier {
       Uri.parse('$endPoint/Days/$id'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      day.addAll(json.decode(response.body));
+      day = json.decode(response.body);
     });
     return day;
   }
@@ -155,7 +155,7 @@ class AdminDataProvider with ChangeNotifier {
       Uri.parse('$endPoint/Bells/$id'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      bell.addAll(json.decode(response.body));
+      bell = json.decode(response.body);
     });
     return bell;
   }
@@ -203,10 +203,14 @@ class AdminDataProvider with ChangeNotifier {
     );
   }
 
-  List<dynamic>  getCourses(String search,String unitCount) {
+  List<dynamic> getCourses(String? search, String? unitCount) {
     final courses = [];
+    String query = 'search=$search&unitCount=$unitCount&';
+    if (search == null && unitCount == null) {
+
+    }
     http.get(
-      Uri.parse('$endPoint/Courses?search=$search&unitCount=$unitCount&Page=1&PageSize=2147483647'),
+      Uri.parse('$endPoint/Courses?$query''Page=1&PageSize=2147483647'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
       courses.addAll(json.decode(response.body).list);
@@ -214,35 +218,35 @@ class AdminDataProvider with ChangeNotifier {
     return courses;
   }
 
-  List<dynamic> getSingleCourse(String id) {
-    final course = [];
+  Map<String, String> getSingleCourse(String id) {
+    Map<String, String> course = {};
     http.get(
       Uri.parse('$endPoint/Courses/$id?Page=1&PageSize=2147483647'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      course.addAll(json.decode(response.body).list);
+      course = json.decode(response.body);
     });
     return course;
   }
 
-  List<dynamic> getSingleCourseTimeTable(String id) {
-    final courseTimeTable = [];
+  Map<String, String> getSingleCourseTimeTable(String id) {
+    Map<String, String> courseTimeTable = {};
     http.get(
       Uri.parse('$endPoint/Courses/$id/TimeTables?Page=1&PageSize=2147483647'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      courseTimeTable.addAll(json.decode(response.body).list);
+      courseTimeTable = json.decode(response.body);
     });
     return courseTimeTable;
   }
 
-  List<dynamic> getSingleCourseMasters(String id) {
-    final courseMasters = [];
+  Map<String, String> getSingleCourseMasters(String id) {
+    Map<String, String> courseMasters = {};
     http.get(
       Uri.parse('$endPoint/Courses/$id/Masters?Page=1&PageSize=2147483647'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      courseMasters.addAll(json.decode(response.body).list);
+      courseMasters = json.decode(response.body);
     });
     return courseMasters;
   }

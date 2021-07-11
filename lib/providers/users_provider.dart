@@ -7,31 +7,59 @@ import '../main.dart';
 class UsersProvider with ChangeNotifier {
   final token = LastWar.token;
   final endPoint = '${LastWar.dns}/Users';
+  /*
+  getUsers
+  getStudents
+  getSingleUser
+  editUser
+  deleteUser
+  getUserProfileInformation
+  editUserProfile
+  changePassword
+  addSingleUser
+  addUsers
+  */
 
-  List<dynamic>  getUsers(String search) {
-    final users = [];
+  List<dynamic> getUsers(String? search) {
+    List<dynamic> users = [];
+    String query ='';
+    if(search != null){
+      query= 'search=$search&';
+    }
     http.get(
-      Uri.parse('$endPoint?search=$search&Page=1&PageSize=2147483647'),
+      Uri.parse('$endPoint?$query''Page=1&PageSize=2147483647'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      users.addAll(json.decode(response.body).list);
+      users = json
+          .decode(response.body)
+          .list;
     });
     return users;
   }
+  List<Map<String,String>>get getStudents{
+    final users = getUsers(null);
+    List<Map<String,String>> students=[];
+    users.forEach((user) {
+      if(user['role'] == 'ROLE_STUDENT'){
+        students.add(user);
+      }
+    });
+    return students;
+}
 
-  List<dynamic> getSingleUser(String id) {
-    final user = [];
+  Map<String, String> getSingleUser(String id) {
+    Map<String, String> user = {};
     http.get(
       Uri.parse('$endPoint/$id'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      user.addAll(json.decode(response.body));
+      user = json.decode(response.body);
     });
     return user;
   }
 
-  Future<void> editUser(
-      String id, String firstName, String lastName, String code) async {
+  Future<void> editUser(String id, String firstName, String lastName,
+      String code) async {
     final response = await http.put(
       Uri.parse('$endPoint/$id'),
       body: json.encode({
@@ -55,19 +83,19 @@ class UsersProvider with ChangeNotifier {
     );
   }
 
-  List<dynamic> get getUserProfileInformation {
-    final userProfileInformation = [];
+  Map<String, String> get getUserProfileInformation {
+    Map<String, String> userProfileInformation = {};
     http.get(
       Uri.parse('$endPoint/Profile'),
       headers: {'Authorization': 'Mazalax $token'},
     ).then((response) {
-      userProfileInformation.addAll(json.decode(response.body));
+      userProfileInformation = json.decode(response.body);
     });
     return userProfileInformation;
   }
 
-  Future<void> editUserProfile(
-      String firstName, String lastName, String password) async {
+  Future<void> editUserProfile(String firstName, String lastName,
+      String password) async {
     final response = await http.post(
       Uri.parse('$endPoint/Profile'),
       body: json.encode({
@@ -84,10 +112,10 @@ class UsersProvider with ChangeNotifier {
     }
   }
 
-  Future<void> changePassword(
-      String currentPassword, String newPassword) async {
+  Future<void> changePassword(String currentPassword,
+      String newPassword) async {
     final response = await http.post(
-      Uri.parse('$endPoint/Profile'),
+      Uri.parse('$endPoint/Profile/ChangePassword'),
       body: json.encode({
         'currentPassword': currentPassword,
         'newPassword': newPassword,
@@ -101,13 +129,11 @@ class UsersProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addSingleUser(
-    String firstName,
-    String lastName,
-    String password,
-    String code,
-    String rule,
-  ) async {
+  Future<void> addSingleUser(String firstName,
+      String lastName,
+      String password,
+      String code,
+      String role,) async {
     final response = await http.post(
       Uri.parse('$endPoint/Add'),
       body: json.encode({
@@ -115,7 +141,7 @@ class UsersProvider with ChangeNotifier {
         'lastName': lastName,
         'password': password,
         'code': code,
-        'rule': rule,
+        'role': role,
       }),
       headers: {'Authorization': 'Mazalax $token'},
     );
@@ -127,25 +153,14 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> addUsers(List users) async {
-    users.forEach((user) async {
-      final response = await http.post(
-        Uri.parse('$endPoint/AddList'),
-        body: json.encode([
-          {
-            'firstName': user['firstName'],
-            'lastName': user['lastName'],
-            'password': user['password'],
-            'code': user['code'],
-            'rule': user['rule'],
-          }
-        ]),
-        headers: {'Authorization': 'Mazalax $token'},
-      );
-      if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
-        //TODO Done Snackbar and stuff
-      } else {
-        //Not Done!
-      }
-    });
+    final response = await http.post(Uri.parse('$endPoint/AddList'), body: json.encode(users),
+      headers: {'Authorization': 'Mazalax $token'},);
+    if (response.statusCode == 200 && json.decode(response.body)['id'] != 0) {
+      //TODO Done Snackbar and stuff
+    } else {
+      //Not Done!
+    }
   }
+
+
 }

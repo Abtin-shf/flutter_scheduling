@@ -93,16 +93,19 @@ class _AuthCardState extends State<AuthCard> {
         'password': _authData['password'],
       }),
     );
-    LastWar.token = json.decode(response.body).token;
-    LastWar.user = json.decode(response.body).user;
-    if (_authData['code'] == '111111111') {
-      Navigator.of(context).pushReplacementNamed(AdminTabsScreen.routName);
-    }
-    if (_authData['code'] == '222222222') {
-      Navigator.of(context).pushReplacementNamed(MasterTabsScreen.routName);
-    }
-    if (_authData['code'] == '333333333') {
-      Navigator.of(context).pushReplacementNamed(StudentTabsScreen.routName);
+    if(response.statusCode == 200){
+
+      LastWar.token = json.decode(response.body).token;
+      LastWar.user = json.decode(response.body).user;
+      if(LastWar.user['role'] == 'Admin'){
+        Navigator.of(context).pushReplacementNamed(AdminTabsScreen.routName);
+      }
+      if(LastWar.user['role'] == 'Master'){
+        Navigator.of(context).pushReplacementNamed(MasterTabsScreen.routName);
+      }
+      if(LastWar.user['role'] == 'Student'){
+        Navigator.of(context).pushReplacementNamed(StudentTabsScreen.routName);
+      }
     }
   }
 

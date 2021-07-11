@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../main.dart';
+
 class MasterAnnouncementProvider with ChangeNotifier {
-  final dns = 'http://localhost:8080/api/Announcements';
-  final token = '';
+  final dns = '${LastWar.dns}/Announcements';
+  final token = LastWar.token;
   var _items = [
     {
       'id': '0',

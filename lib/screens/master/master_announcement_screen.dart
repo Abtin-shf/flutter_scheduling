@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:last_war/models/enums.dart';
 import 'package:last_war/providers/master/master_announcement_provider.dart';
 import 'package:last_war/widgets/shared/announcement_dialog.dart';
 
@@ -158,6 +159,8 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
                                 dateTime: '',
                                 title: '',
                                 description: '',
+                                  timeTableId: '',
+                                editOrAdd: EditOrAdd.Add,
                               ),
                             ),
                           );
@@ -197,7 +200,8 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
                               ['dateTime'] as String,
                               description:
                               announcementData.getAnnouncements(timetableIds)[index]
-                              ['description'] as String,
+                              ['description'] as String, editOrAdd: EditOrAdd.Edit,
+                              timeTableId: '',
                             ),
                           ),
                         );

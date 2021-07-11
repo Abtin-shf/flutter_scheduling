@@ -1,11 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:last_war/models/enums.dart';
+import 'package:last_war/providers/admin/admin_data_provider.dart';
 import 'package:last_war/widgets/admin/dialogs/admin_data_edit_dialog.dart';
+import 'package:provider/provider.dart';
 
 class AdminDataItem extends StatefulWidget {
-  final String item;
+  final String name;
+  final String secondOne;
+  final DataType type;
+  final String id;
 
-  AdminDataItem({required this.item});
+  AdminDataItem(
+      {required this.name,
+      required this.secondOne,
+      required this.type,
+      required this.id});
 
   @override
   _AdminDataItemState createState() => _AdminDataItemState();
@@ -22,7 +32,11 @@ class _AdminDataItemState extends State<AdminDataItem> {
           borderRadius: BorderRadius.circular(25),
         ),
         content: AdminDataEditDialog(
-          name: '${widget.item}',
+          name: '${widget.name}',
+          secondOne: '${widget.secondOne}',
+          type: widget.type,
+          editOrAdd: EditOrAdd.Edit,
+          id: widget.id,
         ),
       ),
     );
@@ -34,19 +48,28 @@ class _AdminDataItemState extends State<AdminDataItem> {
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<AdminDataProvider>(context);
     return Dismissible(
-      key: ValueKey(widget.item),
+      key: ValueKey(widget.name),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
           return showCupertinoDialog(
             context: context,
             builder: (ctx) => CupertinoAlertDialog(
               title: Text('Deleting...'),
-              content: Text('Are You Sure You Want to Delete ${widget.item}?'),
+              content: Text('Are You Sure You Want to Delete ${widget.name}?'),
               actions: [
                 TextButton(
                     onPressed: () {
-                      //TODO delete data Item
+                      if (widget.type == DataType.Day) {
+                        data.deleteDay(widget.id);
+                      }
+                      if (widget.type == DataType.Bell) {
+                        data.deleteBell(widget.id);
+                      }
+                      if (widget.type == DataType.Course) {
+                        data.deleteCourse(widget.id);
+                      }
                       Navigator.of(ctx).pop(true);
                     },
                     child: Text('Yes')),
@@ -68,7 +91,7 @@ class _AdminDataItemState extends State<AdminDataItem> {
                   builder: (ctx) => CupertinoAlertDialog(
                     title: Text('Editing'),
                     content:
-                        Text('Are You Sure You Want to Edit ${widget.item}?'),
+                        Text('Are You Sure You Want to Edit ${widget.name}?'),
                     actions: [
                       TextButton(
                           onPressed: () {
@@ -132,7 +155,7 @@ class _AdminDataItemState extends State<AdminDataItem> {
           ),
           title: Center(
             child: Text(
-              '${widget.item}',
+              '${widget.name}',
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.blueGrey,

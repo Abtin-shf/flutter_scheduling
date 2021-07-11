@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:last_war/providers/admin/admin_annoucement_provider.dart';
 import 'package:last_war/providers/admin/admin_data_provider.dart';
-import 'package:last_war/providers/admin/admin_students_provider.dart';
-import 'package:last_war/providers/admin/admin_timetable_provider.dart';
+
 import 'package:last_war/providers/admin/all_courses_provider.dart';
 import 'package:last_war/providers/master/master_announcement_provider.dart';
 import 'package:last_war/providers/master/master_courses_provider.dart';
@@ -25,7 +24,7 @@ void main()  {
 class LastWar extends StatelessWidget {
   static const String dns = 'http://localhost:8080/api';
   static String? token;
-  static Map<String,String>? user;
+  static Map<String,String> user={};
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +36,8 @@ class LastWar extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => AdminAnnouncementProvider(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => AdminTimeTableProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => AdminStudentsProvider(),
-        ),
+
+
         ChangeNotifierProvider(
           create: (ctx) => AdminDataProvider(),
         ),

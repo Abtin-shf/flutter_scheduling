@@ -36,8 +36,8 @@ class TimeTableBellsProvider with ChangeNotifier {
     }
   }
 
-  List<dynamic> getSingleTimeTableBell(String id) {
-    final timeTableBell = [];
+  Map<String,String> getSingleTimeTableBell(String id) {
+    Map<String,String> timeTableBell = {};
     http.get(
       Uri.parse('$endPoint/$id'),
       headers: {'Authorization': 'Mazalax $token'},
