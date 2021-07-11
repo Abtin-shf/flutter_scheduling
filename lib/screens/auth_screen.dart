@@ -97,13 +97,13 @@ class _AuthCardState extends State<AuthCard> {
 
       LastWar.token = json.decode(response.body).token;
       LastWar.user = json.decode(response.body).user;
-      if(LastWar.user['role'] == 'Admin'){
+      if(LastWar.user['role'] == 'ROLE_ADMIN'){
         Navigator.of(context).pushReplacementNamed(AdminTabsScreen.routName);
       }
-      if(LastWar.user['role'] == 'Master'){
+      if(LastWar.user['role'] == 'ROLE_ADMIN'){
         Navigator.of(context).pushReplacementNamed(MasterTabsScreen.routName);
       }
-      if(LastWar.user['role'] == 'Student'){
+      if(LastWar.user['role'] == 'ROLE_STUDENT'){
         Navigator.of(context).pushReplacementNamed(StudentTabsScreen.routName);
       }
     }
