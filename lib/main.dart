@@ -9,6 +9,8 @@ import 'package:last_war/providers/master/master_courses_provider.dart';
 import 'package:last_war/providers/master/master_timetable_provider.dart';
 import 'package:last_war/providers/student/student_courses_provider.dart';
 import 'package:last_war/providers/student/student_timetable_provider.dart';
+import 'package:last_war/providers/time_table_bells_provider.dart';
+import 'package:last_war/providers/time_tables_provider.dart';
 import 'package:last_war/providers/users_provider.dart';
 import 'package:last_war/screens/admin/admin_tabs_screen.dart';
 import 'package:last_war/screens/auth_screen.dart';
@@ -36,7 +38,12 @@ class LastWar extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => AdminAnnouncementProvider(),
         ),
-
+        ChangeNotifierProvider(
+          create: (ctx) => TimeTablesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => TimeTableBellsProvider(),
+        ),
 
         ChangeNotifierProvider(
           create: (ctx) => AdminDataProvider(),
