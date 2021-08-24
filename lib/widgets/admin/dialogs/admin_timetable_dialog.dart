@@ -1,26 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:last_war/providers/time_tables_provider.dart';
+import 'package:provider/provider.dart';
 
 class AdminTimeTableDialog extends StatelessWidget {
-  final String day;
-  final String bell;
-  final List<Map<String, String>> items;
+  final Map<String, String> day;
+  final Map<String, String> bell;
 
   AdminTimeTableDialog({
     required this.day,
     required this.bell,
-    required this.items,
   });
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> timeTables = Provider.of<TimeTablesProvider>(context)
+        .getTimeTablesForSpecificTimeTableBellIds(
+            context, bell['id'] as String, day['id'] as String);
     return Container(
       child: Container(
         height: 500,
         width: 300,
         child: Column(
           children: <Widget>[
-            Text('$day : $bell'),
+            Text('${day['label']} : ${bell['label']}'),
             Divider(
               thickness: 4.0,
               color: Theme.of(context).accentColor,
@@ -37,7 +40,8 @@ class AdminTimeTableDialog extends StatelessWidget {
                 itemBuilder: (ctx, index) => Container(
                   decoration: BoxDecoration(
                     border: Border(
-                     bottom: BorderSide(width: 1, color: Theme.of(context).primaryColor),
+                      bottom: BorderSide(
+                          width: 1, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   child: ListTile(
@@ -45,20 +49,23 @@ class AdminTimeTableDialog extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Master : ${items[index]['master']}'),
+                        Text(
+                            'Master : ${timeTables[index]['master']['user']['firstName']} ${timeTables[index]['master']['user']['lastName']}'),
                         SizedBox(
                           height: 3,
                         ),
-                        Text('Course : ${items[index]['course']}'),
+                        Text(
+                          'Course : ${timeTables[index]['course']['title']}',
+                        ),
                         SizedBox(
                           height: 3,
                         ),
-                        Text('Class Number : ${items[index]['classNumber']}'),
+                        Text('Class Number : Online Classes!'),
                       ],
                     ),
                   ),
                 ),
-                itemCount: items.length,
+                itemCount: timeTables.length,
               ),
             ),
           ],

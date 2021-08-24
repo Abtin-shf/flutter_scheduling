@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:last_war/main.dart';
 import 'package:last_war/screens/admin/admin_tabs_screen.dart';
 import 'package:last_war/screens/student/student_tabs_screen.dart';
+import 'package:http/http.dart' as http;
 
 import 'master/master_tabs_screen.dart';
 
@@ -55,9 +59,10 @@ class AuthCard extends StatefulWidget {
 }
 
 class _AuthCardState extends State<AuthCard> {
+  final authEndpoint = '${LastWar.dns}/Auth/Login';
   final GlobalKey<FormState> _formKey = GlobalKey();
   Map<String, String> _authData = {
-    'id': '',
+    'code': '',
     'password': '',
   };
   var _isLoading = false;
@@ -81,15 +86,26 @@ class _AuthCardState extends State<AuthCard> {
 
   Future<void> _submit() async {
     _formKey.currentState!.save();
-    print(_authData['password']);
-    if (_authData['id'] == '111111111') {
-      Navigator.of(context).pushReplacementNamed(AdminTabsScreen.routName);
-    }
-    if (_authData['id'] == '222222222') {
-      Navigator.of(context).pushReplacementNamed(MasterTabsScreen.routName);
-    }
-    if (_authData['id'] == '333333333') {
-      Navigator.of(context).pushReplacementNamed(StudentTabsScreen.routName);
+    final response = await http.post(
+      Uri.parse(authEndpoint),
+      body: json.encode({
+        'code': _authData['code'],
+        'password': _authData['password'],
+      }),
+    );
+    if(response.statusCode == 200){
+
+      LastWar.token = json.decode(response.body).token;
+      LastWar.user = json.decode(response.body).user;
+      if(LastWar.user['role'] == 'ROLE_ADMIN'){
+        Navigator.of(context).pushReplacementNamed(AdminTabsScreen.routName);
+      }
+      if(LastWar.user['role'] == 'ROLE_ADMIN'){
+        Navigator.of(context).pushReplacementNamed(MasterTabsScreen.routName);
+      }
+      if(LastWar.user['role'] == 'ROLE_STUDENT'){
+        Navigator.of(context).pushReplacementNamed(StudentTabsScreen.routName);
+      }
     }
   }
 
@@ -143,7 +159,7 @@ class _AuthCardState extends State<AuthCard> {
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['id'] = value as String;
+                    _authData['code'] = value as String;
                   },
                 ),
                 SizedBox(

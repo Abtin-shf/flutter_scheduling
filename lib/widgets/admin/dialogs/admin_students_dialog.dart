@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:last_war/providers/admin/admin_students_provider.dart';
+import 'package:last_war/models/enums.dart';
+import 'package:last_war/providers/users_provider.dart';
 import 'package:last_war/widgets/admin/dialogs/admin_students_edit_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -11,9 +12,8 @@ class AdminStudentsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final extractedStudents =
-        Provider.of<AdminStudentsProvider>(context).getItems;
+    final students = Provider.of<UsersProvider>(context).getStudents;
+
     return Container(
       child: SingleChildScrollView(
         child: Container(
@@ -52,11 +52,12 @@ class AdminStudentsDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Text('${extractedStudents[index]['name']}'),
+                            Text(
+                                '${students[index]['firstName']} ${students[index]['lastName']}'),
                             SizedBox(
                               width: 2,
                             ),
-                            Text('${extractedStudents[index]['code']}'),
+                            Text('${students[index]['code']}'),
                             IconButton(
                               icon: Icon(
                                 Icons.edit,
@@ -69,19 +70,44 @@ class AdminStudentsDialog extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     content: AdminStudentsEditDialog(
-                                        name: extractedStudents[index]['name']
-                                        as String,
-                                        code: extractedStudents[index]['code']
-                                        as String),
+                                      firstName: students[index]['firstName']
+                                          as String,
+                                      code: students[index]['code'] as String,
+                                      editOrAdd: EditOrAdd.Edit,
+                                      lastName:
+                                          students[index]['lastName'] as String,
+                                      id: students[index]['id'] as String,
+                                    ),
                                   ),
                                 );
                               },
-
                               iconSize: 22,
                             ),
                             IconButton(
                               onPressed: () {
-                                //TODO DELETE STUDENT
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (ctx) => CupertinoAlertDialog(
+                                    title: Text('Deleting...'),
+                                    content: Text(
+              'Are You Sure You Want to Delete ${students[index]['firstName']} ${students[index]['lastName']}?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Provider.of<UsersProvider>(context)
+                                                .deleteUser(students[index]
+                                                    ['id'] as String);
+                                            Navigator.of(ctx).pop();
+                                          },
+                                          child: Text('Yes')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(ctx).pop();
+                                          },
+                                          child: Text('No')),
+                                    ],
+                                  ),
+                                );
                               },
                               icon: Icon(Icons.delete),
                               iconSize: 22,
@@ -91,7 +117,7 @@ class AdminStudentsDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  itemCount: extractedStudents.length,
+                  itemCount: students.length,
                 ),
               ),
               SizedBox(
@@ -112,7 +138,13 @@ class AdminStudentsDialog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      content: AdminStudentsEditDialog(name: '', code: ''),
+                      content: AdminStudentsEditDialog(
+                        firstName: '',
+                        lastName: '',
+                        code: '',
+                        editOrAdd: EditOrAdd.Add,
+                        id: '',
+                      ),
                     ),
                   );
                 },

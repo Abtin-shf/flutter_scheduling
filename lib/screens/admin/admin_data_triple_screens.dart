@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:last_war/models/enums.dart';
 import 'package:last_war/providers/admin/admin_data_provider.dart';
 import 'package:last_war/widgets/admin/dialogs/admin_data_edit_dialog.dart';
 import 'package:last_war/widgets/admin/items/admin_data_item.dart';
 import 'package:provider/provider.dart';
 
 class _DataItem extends StatelessWidget {
-  final List<String> items;
+  final List<String> names;
+  final DataType type;
+  final List<String> secondOnes;
+  final List<String> ids;
 
-  _DataItem({required this.items});
+  _DataItem(
+      {required this.names,
+      required this.type,
+      required this.secondOnes,
+      required this.ids});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +27,12 @@ class _DataItem extends StatelessWidget {
           height: mediaQuery.size.height * 0.55,
           width: double.infinity,
           child: ListView.builder(
-            itemBuilder: (ctx, index) => AdminDataItem(item: items[index]),
-            itemCount: items.length,
+            itemBuilder: (ctx, index) => AdminDataItem(
+              name: names[index],
+              secondOne: secondOnes[index],
+              type: type, id: ids[index],
+            ),
+            itemCount: names.length,
           ),
         ),
         SizedBox(
@@ -36,6 +48,9 @@ class _DataItem extends StatelessWidget {
                 ),
                 content: AdminDataEditDialog(
                   name: '',
+                  secondOne: '',
+                  type: type,
+                  editOrAdd: EditOrAdd.Add, id: '',
                 ),
               ),
             );
@@ -83,23 +98,62 @@ class _DataItem extends StatelessWidget {
 class AdminDataDayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final items = Provider.of<AdminDataProvider>(context).getDayItems;
-    return _DataItem(items: items);
+    final days = Provider.of<AdminDataProvider>(context).getDays;
+    List<String> labels = [];
+    List<String> dayOfWeeks = [];
+    List<String> ids = [];
+    days.forEach((day) {
+      labels.add(day['label']);
+      dayOfWeeks.add(day['dayOfWeek']);
+      ids.add(day['id']);
+    });
+    return _DataItem(
+      names: labels,
+      type: DataType.Day,
+      secondOnes: dayOfWeeks,
+      ids: ids,
+    );
   }
 }
 
 class AdminDataBellScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final items = Provider.of<AdminDataProvider>(context).getBellItems;
-    return _DataItem(items: items);
+    final days = Provider.of<AdminDataProvider>(context).getBells;
+    List<String> labels = [];
+    List<String> bellOfDays = [];
+    List<String> ids = [];
+    days.forEach((bell) {
+      labels.add(bell['label']);
+      bellOfDays.add(bell['bellOfDay']);
+      ids.add(bell['id']);
+    });
+    return _DataItem(
+      names: labels,
+      type: DataType.Bell,
+      secondOnes: bellOfDays,
+      ids: ids,
+    );
   }
 }
 
 class AdminDataCoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final items = Provider.of<AdminDataProvider>(context).getCoursesItems;
-    return _DataItem(items: items);
+    final days = Provider.of<AdminDataProvider>(context).getCourses(null, null);
+    List<String> titles = [];
+    List<String> unitCounts = [];
+    List<String> ids = [];
+    days.forEach((course) {
+      titles.add(course['title']);
+      unitCounts.add(course['unitsCount']);
+      ids.add(course['id']);
+    });
+    return _DataItem(
+      names: titles,
+      type: DataType.Course,
+      secondOnes: unitCounts,
+      ids: ids,
+    );
   }
 }

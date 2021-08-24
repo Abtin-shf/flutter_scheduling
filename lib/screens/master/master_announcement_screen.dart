@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:last_war/models/enums.dart';
 import 'package:last_war/providers/master/master_announcement_provider.dart';
 import 'package:last_war/widgets/shared/announcement_dialog.dart';
 
@@ -12,6 +13,7 @@ class MasterAnnouncementScreen extends StatefulWidget {
 }
 
 class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
+  final timetableIds=[];
   String _extractPreview(String sentence) {
     return '${sentence.substring(0, 35)}...';
   }
@@ -34,7 +36,7 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
   void didChangeDependencies() {
     final announcementData =
     Provider.of<MasterAnnouncementProvider>(context, listen: false);
-    _initializeColors(announcementData.getAnnouncements.length);
+    _initializeColors(announcementData.getAnnouncements(timetableIds).length);
     super.didChangeDependencies();
   }
 
@@ -164,6 +166,8 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
                                 dateTime: '',
                                 title: '',
                                 description: '',
+                                  timeTableId: '',
+                                editOrAdd: EditOrAdd.Add,
                               ),
                             ),
                           );
@@ -197,13 +201,14 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
                               borderRadius: BorderRadius.circular(25),
                             ),
                             content: AnnouncementDialog(
-                              title: announcementData.getAnnouncements[index]
+                              title: announcementData.getAnnouncements(timetableIds)[index]
                               ['title'] as String,
-                              dateTime: announcementData.getAnnouncements[index]
+                              dateTime: announcementData.getAnnouncements(timetableIds)[index]
                               ['dateTime'] as String,
                               description:
-                              announcementData.getAnnouncements[index]
-                              ['description'] as String,
+                              announcementData.getAnnouncements(timetableIds)[index]
+                              ['description'] as String, editOrAdd: EditOrAdd.Edit,
+                              timeTableId: '',
                             ),
                           ),
                         );
@@ -214,10 +219,10 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
                           border: Border.all(width: 1, color: Colors.black),
                         ),
                         child: ListTile(
-                          title: Text(announcementData.getAnnouncements[index]
+                          title: Text(announcementData.getAnnouncements(timetableIds)[index]
                           ['title'] as String),
                           subtitle: Text(_extractPreview(
-                              announcementData.getAnnouncements[index]
+                              announcementData.getAnnouncements(timetableIds)[index]
                               ['description'] as String)),
                           trailing: IconButton(
                             onPressed: () {
@@ -232,7 +237,7 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
                       ),
                     );
                   },
-                  itemCount: announcementData.getAnnouncements.length,
+                  itemCount: announcementData.getAnnouncements(timetableIds).length,
                 ),
               ),
             ),

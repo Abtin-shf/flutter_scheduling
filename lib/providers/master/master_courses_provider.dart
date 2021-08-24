@@ -35,7 +35,7 @@ class MasterCoursesProvider with ChangeNotifier {
       'capacity': '65',
       'examDate': DateTime.now().toIso8601String(),
       'students': [
-        {'name': 'Abtin Shafiei', 'code': '985361065'},
+        {'name': 'Abtin Shafiei', 'code': '985361065'},  
         {'name': 'Tohid Yagmuri', 'code': '985361035'},
         {'name': 'Yashar Masruri', 'code': '985361028'},
         {'name': 'Fateme Esmati', 'code': '985361043'},

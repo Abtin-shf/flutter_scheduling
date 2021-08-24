@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:last_war/providers/time_table_bells_provider.dart';
 import 'package:last_war/widgets/admin/dialogs/admin_timetable_dialog.dart';
+import 'package:provider/provider.dart';
 
 class AdminTimeTableItem extends StatelessWidget {
-  final String day;
-  final String bell;
-  final List<Map<String, String>> items;
+  final timeTable;
 
-  AdminTimeTableItem({
-    required this.day,
-    required this.bell,
-    required this.items,
-  });
+  AdminTimeTableItem({required this.timeTable});
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> timeTableBell =
+        Provider.of<TimeTableBellsProvider>(context)
+            .getSingleTimeTableBell(timeTable['timeTableBellId']);
     return InkWell(
       child: Container(
         decoration: BoxDecoration(
@@ -23,7 +22,7 @@ class AdminTimeTableItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FittedBox(
-              child: Text(bell),
+              child: Text(timeTableBell['bell']['label']),
               //fit:BoxFit.fitWidth
             ),
             Icon(Icons.arrow_drop_down_sharp),
@@ -31,7 +30,7 @@ class AdminTimeTableItem extends StatelessWidget {
               child: Center(
                 child: FittedBox(
                   child: Text(
-                    day,
+                    timeTableBell['day']['label'],
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -50,9 +49,9 @@ class AdminTimeTableItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
             ),
             content: AdminTimeTableDialog(
-              day: day,
-              bell: bell,
-              items: items,
+              day: timeTableBell['day'],
+              bell: timeTableBell['bell'],
+
             ),
           ),
         );
