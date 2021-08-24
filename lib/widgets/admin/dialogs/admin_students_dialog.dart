@@ -17,12 +17,12 @@ class AdminStudentsDialog extends StatelessWidget {
     return Container(
       child: SingleChildScrollView(
         child: Container(
-          height: 560,
+          height: mediaQuery.size.height * 0.7, //tule kolle dialog
           width: 350,
           padding: EdgeInsets.only(
             left: 5,
             right: 5,
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+            bottom: mediaQuery.viewInsets.bottom,
           ),
           child: Column(
             children: <Widget>[
@@ -34,10 +34,10 @@ class AdminStudentsDialog extends StatelessWidget {
                 indent: 50,
               ),
               SizedBox(
-                height: 20,
+                height: mediaQuery.size.height * 0.01, //bala
               ),
               Container(
-                height: 430,
+                height: mediaQuery.size.height * 0.525,  //payine dialog
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (ctx, index) => Container(
@@ -121,12 +121,12 @@ class AdminStudentsDialog extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: mediaQuery.size.height * 0.035, //add
               ),
               ElevatedButton(
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all<Size>(
-                    Size.fromWidth(200),
+                    Size.fromWidth(150),
                   ),
                   backgroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).primaryColor),

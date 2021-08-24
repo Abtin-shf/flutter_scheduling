@@ -23,8 +23,9 @@ class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final announcementData =
-        Provider.of<MasterAnnouncementProvider>(context, listen: false);
+    Provider.of<MasterAnnouncementProvider>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(top: 25),
       height: double.infinity,
@@ -32,87 +33,96 @@ class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(4),
-                        height: 150,
-                        width: 150,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              //TODO image
-                              'https://i.ibb.co/QbzKX4v/Wings-Of-Freedom.jpg'),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //TODO major
-                            Text('Major'),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            //TODO faculty
-                            Text('Faculty'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
+            Container(
+              height: mediaQuery.size.height * 0.3,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: <Widget>[
-                              //TODO name
-                              Text('FullName'),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              //TODO ID
-                              Text('ID'),
-                            ],
+                          margin: EdgeInsets.all(4),
+                          height: mediaQuery.size.height * 0.2,
+                          width: 150,
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              //TODO image
+                                'https://i.ibb.co/QbzKX4v/Wings-Of-Freedom.jpg'),
                           ),
                         ),
-                        //SizedBox(height: 100,),
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.025,
+                        ),
                         Container(
-                          margin: EdgeInsets.only(top:100,),
+                          padding: EdgeInsets.only(left: 1),
                           child: Column(
-                            children: <Widget>[
-                              //TODO name
-                              Text('FullName'),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //TODO major
+                              Text('Major'),
                               SizedBox(
-                                height: 20,
+                                height: mediaQuery.size.height * 0.02,
                               ),
-                              //TODO ID
-                              Text('ID'),
+                              //TODO faculty
+                              Text('Faculty'),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: mediaQuery.size.height * 0.01,
+                                ),
+                                //TODO name
+                                Text('FullName'),
+                                SizedBox(
+                                  height: mediaQuery.size.height * 0.02,
+                                ),
+                                //TODO ID
+                                Text('ID'),
+                              ],
+                            ),
+                          ),
+                          //SizedBox(height: 100,),
+                          Container(
+                            margin: EdgeInsets.only(top:100,),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: mediaQuery.size.height * 0.005,
+                                ),
+                                //TODO name
+                                Text('Student Number'),
+                                SizedBox(
+                                  height: mediaQuery.size.height * 0.02,
+                                ),
+                                //TODO ID
+                                Text('Semester'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             SizedBox(
-              height: 30,
+              height: mediaQuery.size.height * 0.015,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -127,7 +137,7 @@ class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: mediaQuery.size.height*0.01,
             ),
             Card(
               elevation: 6,
@@ -135,7 +145,7 @@ class _StudentAnnouncementScreenState extends State<StudentAnnouncementScreen> {
               //   borderRadius: BorderRadius.circular(25),
               // ),
               child: Container(
-                height: 340,
+                height: mediaQuery.size.height*0.375,
                 width: double.infinity,
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {

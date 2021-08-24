@@ -48,6 +48,7 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final announcementData =
         Provider.of<AdminAnnouncementProvider>(context, listen: false);
     final announcements =
@@ -60,16 +61,18 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(4),
-                      height: 150,
-                      width: 150,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
+            Container(
+              height: mediaQuery.size.height * 0.3,
+              child: Row(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.all(4),
+                        height: mediaQuery.size.height * 0.2,
+                        width: 150,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
                             //TODO image
                             'https://i.ibb.co/ftmK4D5/cfae1f642850da600d18a38b55013a18.jpg'),
                       ),
@@ -103,16 +106,51 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
                       Text(
                           '${LastWar.user['firstName']} ${LastWar.user['lastName']}'),
                       SizedBox(
-                        height: 20,
+                        height: mediaQuery.size.height * 0.015,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //TODO major
+                            Text('Major'),
+                            SizedBox(
+                              height: mediaQuery.size.height * 0.02,
+                            ),
+                            //TODO number
+                            Text('Admin Number'),
+                          ],
+                        ),
                       ),
                       Text('${LastWar.user['id']}')
                     ],
                   ),
-                ),
-              ],
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: 60,
+                      bottom: 70,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.065,
+                        ),
+                        //TODO name
+                        Text('FullName'),
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.02,
+                        ),
+                        //TODO ID
+                        Text('ID')
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 30,
+            SizedBox( //
+              height: mediaQuery.size.height * 0.015,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -182,12 +220,13 @@ class _AdminAnnouncementScreenState extends State<AdminAnnouncementScreen> {
               ),
             ),
             SizedBox(
-              height: 20,
+              //height: 20,
+              height: mediaQuery.size.height*0.02,
             ),
             Card(
               elevation: 6,
               child: Container(
-                height: 340,
+                height: mediaQuery.size.height*0.365,
                 width: double.infinity,
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {

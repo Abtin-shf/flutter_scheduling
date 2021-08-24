@@ -42,6 +42,7 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final announcementData =
     Provider.of<MasterAnnouncementProvider>(context, listen: false);
     return Container(
@@ -51,61 +52,67 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(4),
-                      height: 150,
-                      width: 150,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          //TODO image
-                            'https://i.ibb.co/CP3ZSVp/f5243de6d4855da804f7d83d1770858b.jpg'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //TODO major
-                          Text('Major'),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          //TODO number
-                          Text('MasterNumber'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 60,
-                    bottom: 70,
-                  ),
-                  child: Column(
+            Container(
+              height: mediaQuery.size.height * 0.3,
+              child: Row(
+                children: <Widget>[
+                  Column(
                     children: <Widget>[
-                      //TODO name
-                      Text('FullName'),
-                      SizedBox(
-                        height: 20,
+                      Container(
+                        margin: EdgeInsets.all(4),
+                        height: mediaQuery.size.height * 0.2,
+                        width: 150,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            //TODO image
+                              'https://i.ibb.co/CP3ZSVp/f5243de6d4855da804f7d83d1770858b.jpg'),
+                        ),
                       ),
-                      //TODO ID
-                      Text('ID')
+                      SizedBox(
+                        height: mediaQuery.size.height * 0.015,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //TODO major
+                            Text('Major'),
+                            SizedBox(
+                              height: mediaQuery.size.height * 0.02,
+                            ),
+                            //TODO number
+                            Text('MasterNumber'),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: 60,
+                      bottom: 70,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.065,
+                        ),
+                        //TODO name
+                        Text('FullName'),
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.02,
+                        ),
+                        //TODO ID
+                        Text('ID')
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             SizedBox(
-              height: 30,
+              height: mediaQuery.size.height * 0.015,
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -173,7 +180,7 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: mediaQuery.size.height*0.02,
             ),
             Card(
               elevation: 6,
@@ -181,7 +188,7 @@ class _MasterAnnouncementScreenState extends State<MasterAnnouncementScreen> {
               //   borderRadius: BorderRadius.circular(25),
               // ),
               child: Container(
-                height: 340,
+                height: mediaQuery.size.height*0.365,
                 width: double.infinity,
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {
